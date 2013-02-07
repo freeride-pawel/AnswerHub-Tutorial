@@ -1,0 +1,41 @@
+<project name="Sample Plugin" basedir="." default="jar">
+    <property file="build.properties"/>
+
+    <target name="clean">
+		<delete dir="build"/>
+	</target>
+
+    <target name="compile">
+        <mkdir dir="build"/>
+        <copy todir="build">
+            <fileset dir="src/main/resources" includes="**/*"/>
+        </copy>
+        <javac srcdir="src/main/java"
+			   destdir="build"
+			   debug="on"
+               >
+			<classpath >
+				<fileset dir="${qato.install.dir}/WEB-INF/lib" includes="**/*.jar"/>
+				<fileset dir="${qato.plugin.sdk}/lib" includes="**/*.jar"/>
+                <fileset dir="src/main/resources/META-INF/lib" />
+                <pathelement location="${qato.install.dir}/WEB-INF/classes"/>
+			</classpath>
+		</javac>
+        <replace file="build/atlassian-plugin.xml" token="@plugin.artifactId@" value="${plugin.artifactId}"/>
+        <replace file="build/atlassian-plugin.xml" token="@plugin.groupId@" value="${plugin.groupId}"/>
+        <replace file="build/atlassian-plugin.xml" token="@plugin.name@" value="${plugin.name}"/>
+        <replace file="build/atlassian-plugin.xml" token="@plugin.description@" value="${plugin.description}"/>
+        <replace file="build/atlassian-plugin.xml" token="@plugin.version@" value="${plugin.version}"/>
+        <replace file="build/atlassian-plugin.xml" token="@plugin.organization.name@" value="${plugin.organization.name}"/>
+        <replace file="build/atlassian-plugin.xml" token="@plugin.organization.url@" value="${plugin.organization.url}"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <delete file="build/${plugin.artifactId}-${plugin.version}.jar"/>
+        <jar file="build/${plugin.artifactId}-${plugin.version}.jar" basedir="build"/>
+    </target>
+
+    <target name="deploy" depends="clean,jar">
+        <copy file="build/${plugin.artifactId}-${plugin.version}.jar" todir="${qato.home}/plugins/installed"/>
+    </target>
+</project>

@@ -1,0 +1,16 @@
+<atlassian-plugin key="@plugin.groupId@.@plugin.artifactId@" name="@plugin.name@" plugins-version="2">
+    <plugin-info>
+        <description>@plugin.description@</description>
+        <version>@plugin.version@</version>
+        <vendor name="@plugin.organization.name@" url="@plugin.organization.url@"/>
+    </plugin-info>
+
+
+<bean key="twitterAwardManager" class="com.dzone.plugins.twitter.TwitterAwardManager" />
+    
+<award key="twitter_silver_award" class="com.dzone.plugins.twitter.TwitterSilverAwardRunner" />
+<award key="twitter_gold_award" class="com.dzone.plugins.twitter.TwitterGoldAwardRunner" />
+
+   
+    <resource type="i18n" name="i18n" location="sample" />
+</atlassian-plugin>
